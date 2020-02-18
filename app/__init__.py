@@ -12,7 +12,7 @@ migrate = Migrate()
 
 def create_app(config_class=Config):
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(config_class)
 
     db.init_app(app)
     migrate.init_app(app, db)
@@ -23,7 +23,7 @@ def create_app(config_class=Config):
     from app.book_requests import bp as book_requests_bp
     app.register_blueprint(book_requests_bp)
 
-    if not app.debug and not app.testing:
+    if not app.debug and not app.testing and not app.config['TESTING']:
         if app.config['LOG_TO_STDOUT']:
             stream_handler = logging.StreamHandler()
             stream_handler.setLevel(logging.INFO)
@@ -44,5 +44,17 @@ def create_app(config_class=Config):
     return app
 
 
-from app import models
+def create_test_app(config_class):
+    app = Flask(__name__)
+    app.config.from_object(config_class)
 
+    from app.errors import bp as errors_bp
+    app.register_blueprint(errors_bp)
+
+    from app.book_requests import bp as book_requests_bp
+    app.register_blueprint(book_requests_bp)
+
+    return app
+
+
+from app import models

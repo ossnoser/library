@@ -26,3 +26,5 @@ pip-log.txt
 venv
 app.db
 library.log*
+*.bak
+*.db
