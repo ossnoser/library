@@ -4,18 +4,26 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_jwt_extended import JWTManager
 from config import Config
 
 db = SQLAlchemy()
 migrate = Migrate()
+jwt = JWTManager()
 
 
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    db.init_app(app)
-    migrate.init_app(app, db)
+    if not app.config['TESTING']:
+        db.init_app(app)
+        migrate.init_app(app, db)
+
+    jwt.init_app(app)
+
+    from app.users import bp as user_bp
+    app.register_blueprint(user_bp)
 
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)
@@ -40,19 +48,6 @@ def create_app(config_class=Config):
 
         app.logger.setLevel(logging.INFO)
         app.logger.info('Library starting up!')
-
-    return app
-
-
-def create_test_app(config_class):
-    app = Flask(__name__)
-    app.config.from_object(config_class)
-
-    from app.errors import bp as errors_bp
-    app.register_blueprint(errors_bp)
-
-    from app.book_requests import bp as book_requests_bp
-    app.register_blueprint(book_requests_bp)
 
     return app
 

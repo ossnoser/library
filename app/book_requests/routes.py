@@ -2,7 +2,7 @@ from flask import jsonify, request
 from app import db
 from app.models import BookRequest, BookTitles
 from app.book_requests import bp
-from app.book_requests.errors import bad_request, not_found
+from app.errors.errors import bad_request, not_found
 from email_validator import validate_email, EmailNotValidError
 
 

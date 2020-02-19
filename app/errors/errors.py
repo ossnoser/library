@@ -18,3 +18,6 @@ def bad_request(message):
 def not_found(message):
     return error_response(404, message)
 
+
+def unauthorized(message):
+    return error_response(401, message)
