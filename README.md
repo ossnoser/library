@@ -1,6 +1,7 @@
 # Library App
 
 ![Unittest](https://github.com/ossnoser/library/workflows/Unittest/badge.svg)
+![Docker](https://github.com/ossnoser/library/workflows/Docker/badge.svg)
 
 ## REST API Flask application.
 
