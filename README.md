@@ -1,5 +1,7 @@
 # Library App
 
+![Unittest](https://github.com/ossnoser/library/workflows/Unittest/badge.svg)
+
 ## REST API Flask application.
 
 + DB migration
